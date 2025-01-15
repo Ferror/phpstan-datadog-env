@@ -1,0 +1,11 @@
+# phpstan.neon
+parameters:
+    level: max
+    paths:
+        - src
+    bootstrapFiles:
+        - vendor/autoload.php
+
+    # Include stubs for Datadog Trace Stubs
+    scanFiles:
+        - vendor/datadog/dd-trace/src/ddtrace_php_api.stubs.php

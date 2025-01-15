@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push: ~
+  pull_request: ~
+  workflow_dispatch: ~
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: CI - PHP ${{ matrix.php }}, Dependencies ${{ matrix.dependencies }}
+    env:
+      ASYNCAPI_VERSION: ${{ matrix.schema }}
+    strategy:
+      matrix:
+        php: [8.4]
+        dependencies: [lowest, highest]
+
+    steps:
+      - # Copies the repository files to the Action Runner
+        name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - # Installs PHP and other necessary tools
+        name: Setup PHP
+        uses: shivammathur/setup-php@2.32
+        with:
+          php-version: ${{ matrix.php }}
+
+      - # Installs and caches PHP dependencies
+        name: Install Dependencies
+        uses: ramsey/composer-install@3.0.0
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+
+      - # Validates composer.json structure and required fields
+        name: Validate composer.json
+        run: composer validate --ansi --strict --no-check-publish
+
+      -
+        name: phpstan
+        run: vendor/bin/phpstan

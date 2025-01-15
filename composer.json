@@ -1,0 +1,15 @@
+{
+    "name": "ferror/phpstan-datadog-env",
+    "autoload": {
+        "psr-4": {
+            "Ferror\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "datadog/dd-trace": "^1.6"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
+    }
+}
